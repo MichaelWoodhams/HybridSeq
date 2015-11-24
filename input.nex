@@ -1,0 +1,51 @@
+#NEXUS
+begin filo; 
+	output 
+		format = fasta, nexus, raw
+		filename = hybridoutput
+		precision 5
+ 	;
+ 	matrix HKY = HKY85 0.2 0.5 [ 0.25 0.05 0.25 0.45 ];
+	params
+		l 400
+		indel 0
+	;
+ 	run;
+end;
+begin hybridseq;
+	epochs = (1);
+	speciation rate = (1.5,0.2);
+	hybridization rate = (0,0);
+	introgression rate = (2,1.0);
+	hybridization distribution = (0.25,1) (0.375,1) (0.5,2);
+	introgression distribution = (0.05,1) (0.1,2) (0.2,1);
+	hybridization threshold = 1;
+	hybridization function = exponential;
+	minimum hybridizations = 0;
+	reduce hybridizations to = 0;
+	coalesce = true;
+	coalescence rate = 1;
+	halt time = 6;
+	halt taxa = 8;
+	halt hybrid = 3;
+	seed = 4;
+	dollo rate = 0.2;
+	dollo sites per tree = 10;
+	filo sites per tree = 20;
+	number random trees = 6;
+end;
+[ Originally there was a characters block for gst and paye right after this comment. ]
+begin characters
+      [ an example of a block which should get removed]
+      DIMENSIONS  NCHAR=4;
+      FORMAT DATATYPE = DNA GAP = - MISSING = ?;
+      matrix
+      gst  ACGT
+      paye AGCG
+      ;
+end;
+begin taxa;
+      [ an example of a block which should pass through unchanged ]
+      ntax=2;
+      taxlabels gst paye
+end;
